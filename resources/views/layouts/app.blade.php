@@ -10,7 +10,13 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Styles -->
+
+<link href="{{asset('css/jquery.dataTables.css')}}" rel="stylesheet">
+<link href="{{asset('css/selectize.css')}}" rel="stylesheet">
+<link href="{{asset('css/selectize.bootstrap3.css')}}" rel="stylesheet">
+<link href="{{asset('css/dataTables.bootstrap.css')}}" rel="stylesheet">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+  
 </head>
 <body>
     <div id="app">
@@ -38,6 +44,15 @@
                         @if (Auth::check())
 <li><a href="{{ url('/home') }}">Dashboard</a></li>
 @endif
+@role('admin')
+<li><a href="{{ route('authors.index') }}">Penulis</a></li>
+<li><a href="{{ route('books.index') }}">Buku</a></li>
+<li><a href="{{ route('members.index') }}">Member</a></li>
+<li><a href="{{ route('statistics.index') }}">Peminjaman</a></li>
+@endrole
+@if (auth()->check())
+<li><a href="{{ url('/settings/profile') }}">Profil</a></li>
+@endif
 
                     </ul>
 
@@ -54,6 +69,8 @@
                                 </a>
 
                                 <ul class="dropdown-menu">
+                                <li><a href="{{ url('/settings/password') }}"><i class="fa fa-btn fa-lock"></i> Ubah Password</a></li>
+
                                     <li>
                                         <a href="{{ route('logout') }}"
                                             onclick="event.preventDefault();
@@ -73,23 +90,21 @@
             </div>
         </nav>
 
+            @include('layouts._flash')
         @yield('content')
     </div>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{asset('js/jquery.dataTables.min.js')}}"></script>
+<script src="{{asset('js/dataTables.bootstrap.min.js')}}"></script>
+<script src="{{asset('js/custom.js')}}"></script>
+<script src="{{asset('js/selectize.js')}}"></script>
+<script src='https://www.google.com/recaptcha/api.js'></script>
+
     <!--Start of Tawk.to Script-->
-<script type="text/javascript">
-var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-(function(){
-var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-s1.async=true;
-s1.src='https://embed.tawk.to/5b5965aedf040c3e9e0bf932/default';
-s1.charset='UTF-8';
-s1.setAttribute('crossorigin','*');
-s0.parentNode.insertBefore(s1,s0);
-})();
-</script>
+
 <!--End of Tawk.to Script-->
+  @yield('scripts')
 </body>
 </html>
